@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My English Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2A22;
+    --paper:#FBF7EF;
+    --paper-line:#E4D9C4;
+    --primary:#1F5D50;
+    --primary-dark:#143F37;
+    --primary-soft:#DCEAE6;
+    --accent:#E8A33D;
+    --accent-soft:#FBEBD2;
+    --success:#3E8E5A;
+    --success-soft:#E3F1E7;
+    --error:#C1502E;
+    --error-soft:#FBEAE3;
+    --muted:#7A7264;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Hind Siliguri','Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .en{font-family:'Inter',sans-serif;}
+  #app{
+    max-width:480px;
+    margin:0 auto;
+    min-height:100vh;
+    padding-bottom:82px;
+    position:relative;
+  }
+  header.topbar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:18px 18px 14px;
+    background:var(--primary);
+    color:#fff;
+    position:sticky;
+    top:0;
+    z-index:5;
+  }
+  header.topbar .back{
+    background:rgba(255,255,255,.15);
+    border:none;
+    color:#fff;
+    width:34px;height:34px;
+    border-radius:9px;
+    font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  header.topbar h1{
+    font-family:'Baloo 2',sans-serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0;
+    flex:1;
+    line-height:1.3;
+  }
+  header.topbar .crumb{
+    font-size:12.5px;
+    opacity:.85;
+    margin-top:2px;
+    display:block;
+    font-weight:400;
+  }
+  main{
+    padding:18px 18px 30px;
+  }
+  .brandbar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:20px 18px 8px;
+  }
+  .brandbar .mark{
+    width:38px;height:38px;
+    border-radius:10px;
+    background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    color:var(--primary-dark);
+    font-size:17px;
+  }
+  .brandbar h1{
+    font-family:'Baloo 2',sans-serif;
+    font-size:20px;
+    margin:0;
+    color:var(--primary-dark);
+  }
+  .brandbar p{
+    margin:0;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  .section-title{
+    font-family:'Baloo 2',sans-serif;
+    font-size:16px;
+    color:var(--primary-dark);
+    margin:22px 0 10px;
+    font-weight:600;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:12px;
+  }
+  .home-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    padding:8px 18px 4px;
+  }
+  .tile{
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:16px;
+    padding:16px 14px;
+    text-align:left;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .tile .icon{
+    width:36px;height:36px;
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--primary-soft);
+    color:var(--primary);
+  }
+  .tile.accent .icon{background:var(--accent-soft);color:var(--accent);}
+  .tile h3{
+    font-family:'Baloo 2',sans-serif;
+    font-size:15px;
+    margin:0;
+    color:var(--primary-dark);
+  }
+  .tile p{
+    margin:0;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .streak-card{
+    margin:14px 18px 0;
+    background:var(--primary-dark);
+    color:#fff;
+    border-radius:16px;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .streak-card .num{
+    font-family:'Baloo 2',sans-serif;
+    font-size:26px;
+    font-weight:700;
+  }
+  .streak-card .lbl{font-size:12px;opacity:.85;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:12px 18px;
+    border-radius:11px;
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    width:100%;
+  }
+  .btn.secondary{
+    background:var(--accent-soft);
+    color:var(--primary-dark);
+  }
+  .btn.outline{
+    background:#fff;
+    border:1.5px solid var(--paper-line);
+    color:var(--ink);
+  }
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .btn-row{display:flex;gap:10px;margin-top:14px;}
+  .level-row{
+    display:flex;
+    gap:12px;
+    margin-top:4px;
+  }
+  .level-box{
+    flex:1;
+    background:#fff;
+    border:1.5px solid var(--paper-line);
+    border-radius:16px;
+    padding:18px 12px;
+    text-align:center;
+    cursor:pointer;
+  }
+  .level-box .badge{
+    width:42px;height:42px;
+    margin:0 auto 8px;
+    border-radius:50%;
+    background:var(--primary-soft);
+    color:var(--primary-dark);
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+  }
+  .level-box h3{font-family:'Baloo 2',sans-serif;font-size:15px;margin:0 0 4px;color:var(--primary-dark);}
+  .level-box p{margin:0;font-size:11.5px;color:var(--muted);}
+  .progressbar{
+    height:7px;
+    background:var(--paper-line);
+    border-radius:6px;
+    overflow:hidden;
+    margin-top:8px;
+  }
+  .progressbar > div{
+    height:100%;
+    background:var(--accent);
+  }
+  .lesson-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:13px;
+    padding:13px 14px;
+    margin-bottom:10px;
+    cursor:pointer;
+  }
+  .lesson-item .num{
+    width:32px;height:32px;
+    border-radius:9px;
+    background:var(--primary-soft);
+    color:var(--primary-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+    font-family:'Baloo 2',sans-serif;
+    flex-shrink:0;
+  }
+  .lesson-item.done .num{background:var(--success);color:#fff;}
+  .lesson-item .info{flex:1;}
+  .lesson-item .info h4{margin:0;font-size:14px;font-family:'Baloo 2',sans-serif;color:var(--primary-dark);}
+  .lesson-item .info span{font-size:11.5px;color:var(--muted);}
+  .lesson-item.locked{opacity:.55;cursor:default;}
+  .part-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .part-tile{
+    background:#fff;
+    border:1.5px solid var(--paper-line);
+    border-radius:14px;
+    padding:14px 12px;
+    text-align:left;
+    cursor:pointer;
+    position:relative;
+  }
+  .part-tile.done{border-color:var(--success);background:var(--success-soft);}
+  .part-tile .icon{font-size:20px;margin-bottom:6px;display:block;}
+  .part-tile h4{margin:0 0 3px;font-size:14px;font-family:'Baloo 2',sans-serif;color:var(--primary-dark);}
+  .part-tile span{font-size:11px;color:var(--muted);}
+  .check{
+    position:absolute;top:10px;right:10px;
+    width:18px;height:18px;border-radius:50%;
+    background:var(--success);color:#fff;
+    font-size:11px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .explain-box{
+    background:var(--accent-soft);
+    border-radius:12px;
+    padding:14px;
+    font-size:13.5px;
+    line-height:1.65;
+    margin:22px 0 16px;
+  }
+  .explain-box h4{
+    margin:0 0 8px;
+    font-family:'Baloo 2',sans-serif;
+    font-size:14.5px;
+    color:var(--primary-dark);
+  }
+  .qcounter{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  .qprompt{
+    font-size:16px;
+    font-weight:600;
+    margin:4px 0 16px;
+    line-height:1.6;
+  }
+  .qprompt .en{font-size:16.5px;}
+  .option{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:#fff;
+    border:1.5px solid var(--paper-line);
+    border-radius:11px;
+    padding:12px 14px;
+    margin-bottom:9px;
+    font-size:14.5px;
+    cursor:pointer;
+    font-family:'Hind Siliguri',sans-serif;
+  }
+  .option.selected{border-color:var(--primary);background:var(--primary-soft);}
+  .option.correct{border-color:var(--success);background:var(--success-soft);}
+  .option.wrong{border-color:var(--error);background:var(--error-soft);}
+  input[type=text].qinput{
+    width:100%;
+    padding:12px 14px;
+    border:1.5px solid var(--paper-line);
+    border-radius:11px;
+    font-size:15px;
+    font-family:'Inter',sans-serif;
+    margin-bottom:8px;
+  }
+  input[type=text].qinput.correct{border-color:var(--success);background:var(--success-soft);}
+  input[type=text].qinput.wrong{border-color:var(--error);background:var(--error-soft);}
+  .feedback{
+    border-radius:12px;
+    padding:13px 14px;
+    margin-top:12px;
+    font-size:13.5px;
+    line-height:1.6;
+  }
+  .feedback.correct{background:var(--success-soft);color:var(--primary-dark);}
+  .feedback.wrong{background:var(--error-soft);color:var(--primary-dark);}
+  .feedback .tag{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    display:block;
+    margin-bottom:5px;
+  }
+  .feedback.correct .tag{color:var(--success);}
+  .feedback.wrong .tag{color:var(--error);}
+  .word-card{
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:13px;
+    padding:14px;
+    margin-bottom:10px;
+  }
+  .word-card .w{font-family:'Inter',sans-serif;font-weight:600;font-size:16px;color:var(--primary-dark);}
+  .word-card .m{font-size:13.5px;color:var(--muted);margin:2px 0 6px;}
+  .word-card .ex{font-size:13px;font-style:italic;color:var(--ink);}
+  .bottomnav{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    max-width:480px;
+    margin:0 auto;
+    background:#fff;
+    border-top:1px solid var(--paper-line);
+    display:flex;
+    z-index:10;
+  }
+  .bottomnav button{
+    flex:1;
+    background:none;
+    border:none;
+    padding:11px 4px 9px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    font-size:11px;
+    color:var(--muted);
+    font-family:'Hind Siliguri',sans-serif;
+    cursor:pointer;
+  }
+  .bottomnav button.active{color:var(--primary);}
+  .bottomnav svg{width:20px;height:20px;}
+  .empty-note{
+    background:#fff;
+    border:1.5px dashed var(--paper-line);
+    border-radius:14px;
+    padding:22px 16px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13.5px;
+    line-height:1.7;
+  }
+  .empty-note .big{font-size:26px;display:block;margin-bottom:8px;}
+  .weekrow{display:flex;justify-content:space-between;margin-top:10px;}
+  .weekday{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    font-size:11px;color:var(--muted);
+  }
+  .weekday .dot{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--paper-line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#fff;
+  }
+  .weekday .dot.on{background:var(--success);}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+  .stat-box{background:#fff;border:1px solid var(--paper-line);border-radius:13px;padding:14px;}
+  .stat-box .n{font-family:'Baloo 2',sans-serif;font-size:22px;color:var(--primary-dark);}
+  .stat-box .l{font-size:11.5px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ============ DATA ============ */
+
+const VOCAB_L1 = [
+  {w:"wake up", m:"ঘুম থেকে ওঠা", ex:"I wake up at 6 AM every day."},
+  {w:"morning", m:"সকাল", ex:"I read a book in the morning."},
+  {w:"breakfast", m:"সকালের নাশতা", ex:"She eats breakfast at 7 AM."},
+  {w:"brush", m:"ব্রাশ করা", ex:"He brushes his teeth twice a day."},
+  {w:"teeth", m:"দাঁত", ex:"Brush your teeth after breakfast."},
+  {w:"bathe", m:"স্নান করা", ex:"I bathe before going to school."},
+  {w:"school", m:"বিদ্যালয়", ex:"My school starts at 9 AM."},
+  {w:"homework", m:"বাড়ির কাজ", ex:"I do my homework in the evening."},
+  {w:"lunch", m:"দুপুরের খাবার", ex:"We eat lunch at 1 PM."},
+  {w:"afternoon", m:"দুপুর / বিকাল", ex:"I play football in the afternoon."},
+  {w:"evening", m:"সন্ধ্যা", ex:"We watch TV in the evening."},
+  {w:"dinner", m:"রাতের খাবার", ex:"They eat dinner at 9 PM."},
+  {w:"sleep", m:"ঘুমানো", ex:"I sleep at 10 PM every night."},
+  {w:"tired", m:"ক্লান্ত", ex:"She is tired after school."},
+  {w:"busy", m:"ব্যস্ত", ex:"My father is busy at work."},
+  {w:"early", m:"তাড়াতাড়ি", ex:"I wake up early every morning."},
+  {w:"late", m:"দেরি", ex:"He is never late for school."},
+  {w:"walk", m:"হাঁটা", ex:"I walk to school every day."},
+  {w:"bus", m:"বাস", ex:"She goes to school by bus."},
+  {w:"class", m:"ক্লাস", ex:"Our class starts at 9 AM."},
+  {w:"teacher", m:"শিক্ষক / শিক্ষিকা", ex:"My teacher is very kind."},
+  {w:"student", m:"ছাত্র / ছাত্রী", ex:"He is a good student."},
+  {w:"book", m:"বই", ex:"I read my book every night."},
+  {w:"friend", m:"বন্ধু", ex:"My friend helps me with homework."},
+  {w:"play", m:"খেলা", ex:"We play football after school."}
+];
+
+const VOCAB_QUIZ_L1 = [
+  {type:"mcq", prompt:'"wake up" শব্দের সঠিক বাংলা অর্থ কোনটি?', options:["ঘুম থেকে ওঠা","খাওয়া","হাঁটা","পড়া"], answer:0,
+    ec:'ঠিক — "wake up" মানে ঘুম থেকে ওঠা।', ew:'সঠিক উত্তর ছিল "ঘুম থেকে ওঠা"। এই শব্দটা প্রতিদিনের রুটিনে খুব বেশি ব্যবহার হয়, তাই মনে রাখা জরুরি।'},
+  {type:"mcq", prompt:'"tired" শব্দের অর্থ কী?', options:["ব্যস্ত","ক্লান্ত","খুশি","রাগান্বিত"], answer:1,
+    ec:'ঠিক — "tired" মানে ক্লান্ত।', ew:'সঠিক উত্তর "ক্লান্ত"। "busy" (ব্যস্ত) আর "tired" (ক্লান্ত) — এই দুটো শব্দ প্রায়ই গুলিয়ে যায়, খেয়াল রেখো।'},
+  {type:"mcq", prompt:'"teacher" শব্দটির অর্থ কী?', options:["ছাত্র","শিক্ষক","বন্ধু","ডাক্তার"], answer:1,
+    ec:'ঠিক — "teacher" মানে শিক্ষক।', ew:'সঠিক উত্তর "শিক্ষক"। "teacher" (যিনি শেখান) আর "student" (যে শেখে) — এই জোড়াটা একসাথে মনে রাখলে ভুল হবে না।'},
+  {type:"mcq", prompt:'"early" শব্দের অর্থ কী?', options:["তাড়াতাড়ি","দেরি","ধীরে","দ্রুত"], answer:0,
+    ec:'ঠিক — "early" মানে তাড়াতাড়ি/সময়ের আগে।', ew:'সঠিক উত্তর "তাড়াতাড়ি"। এর বিপরীত শব্দ হলো "late" (দেরি) — দুটো শব্দ একসাথে শিখলে সহজ হবে।'},
+  {type:"mcq", prompt:'"homework" শব্দের অর্থ কী?', options:["স্কুলের কাজ","বাড়ির কাজ","খেলা","পরীক্ষা"], answer:1,
+    ec:'ঠিক — "homework" মানে বাড়ির কাজ, যেটা স্কুল থেকে দেওয়া হয় কিন্তু বাড়িতে বসে করতে হয়।', ew:'সঠিক উত্তর "বাড়ির কাজ"। "home" (বাড়ি) + "work" (কাজ) — শব্দটা ভেঙে মনে রাখলে সহজ হবে।'},
+  {type:"text", prompt:'ফাঁকা ঘরে সঠিক শব্দ বসাও: I ___ at 6 AM every day.', answer:["wake up","wakes up"],
+    ec:'ঠিক — "wake up" ব্যবহার করে দৈনন্দিন অভ্যাস বোঝানো হয়েছে।', ew:'সঠিক উত্তর ছিল "wake up"। বাক্যটি একটি নিয়মিত অভ্যাস বোঝাচ্ছে, তাই "wake up" শব্দটাই বসবে।'},
+  {type:"text", prompt:'ফাঁকা ঘরে সঠিক শব্দ বসাও: She eats ___ at 7 AM.', answer:["breakfast"],
+    ec:'ঠিক — সকাল ৭টায় খাওয়া মানেই "breakfast" (সকালের নাশতা)।', ew:'সঠিক উত্তর ছিল "breakfast"। সময়টা (৭ টা, সকাল) দেখেই বোঝা যায় এটা "breakfast" হবে, "lunch" বা "dinner" নয়।'},
+  {type:"text", prompt:'ফাঁকা ঘরে সঠিক শব্দ বসাও: We eat ___ at 1 PM.', answer:["lunch"],
+    ec:'ঠিক — দুপুর ১টার খাবারকে "lunch" বলে।', ew:'সঠিক উত্তর ছিল "lunch"। দুপুরবেলার খাবারকে ইংরেজিতে "lunch" বলে, সকালেরটা "breakfast" আর রাতেরটা "dinner"।'},
+  {type:"text", prompt:'ফাঁকা ঘরে সঠিক শব্দ বসাও: He goes to school by ___.', answer:["bus"],
+    ec:'ঠিক — যানবাহন হিসেবে "bus" শব্দটাই এখানে বসবে।', ew:'সঠিক উত্তর ছিল "bus"। "by bus" মানে বাসে করে — যাতায়াতের মাধ্যম বোঝাতে "by" এর পরে বাহনের নাম বসে।'},
+  {type:"text", prompt:'ফাঁকা ঘরে সঠিক শব্দ বসাও: I ___ my teeth every morning.', answer:["brush"],
+    ec:'ঠিক — "brush" মানে ব্রাশ করা, আর "teeth" মানে দাঁত।', ew:'সঠিক উত্তর ছিল "brush"। এখানে verb (ক্রিয়া) দরকার ছিল, আর দাঁতের সাথে যায় এমন ক্রিয়া হলো "brush"।'},
+  {type:"open", prompt:'"friend" শব্দটি দিয়ে নিজের একটা বাক্য লেখো।', sample:"My friend lives near my house.",
+    ec:'চমৎকার! বাক্যে "friend" শব্দটা সঠিকভাবে ব্যবহার হয়েছে।', ew:'কোনো ভুল-সঠিক নেই, তুমি চেষ্টা করেছ এটাই আসল। উদাহরণ: "My friend lives near my house."'},
+  {type:"open", prompt:'"busy" শব্দটি দিয়ে নিজের একটা বাক্য লেখো।', sample:"My mother is busy in the kitchen.",
+    ec:'চমৎকার! বাক্যে "busy" শব্দটা সঠিকভাবে বসেছে।', ew:'তোমার চেষ্টা ভালো হয়েছে। উদাহরণ হিসেবে দেখো: "My mother is busy in the kitchen."'},
+  {type:"open", prompt:'"evening" শব্দটি দিয়ে নিজের একটা বাক্য লেখো।', sample:"I play with my friends in the evening.",
+    ec:'চমৎকার! "evening" শব্দটা বাক্যে ঠিকভাবে বসেছে।', ew:'ঠিক আছে, চেষ্টা চালিয়ে যাও। উদাহরণ: "I play with my friends in the evening."'},
+  {type:"open", prompt:'"student" শব্দটি দিয়ে নিজের একটা বাক্য লেখো।', sample:"He is a student of class five.",
+    ec:'চমৎকার! বাক্যটা "student" শব্দ দিয়ে ভালোভাবে গঠন হয়েছে।', ew:'কোনো সমস্যা নেই। উদাহরণ: "He is a student of class five."'},
+  {type:"open", prompt:'"play" শব্দটি দিয়ে নিজের একটা বাক্য লেখো।', sample:"We play cricket every Friday.",
+    ec:'চমৎকার! "play" শব্দটা বাক্যে সঠিকভাবে ব্যবহার হয়েছে।', ew:'ঠিক আছে। উদাহরণ: "We play cricket every Friday."'}
+];
+
+const GRAMMAR_L1 = {
+  topic:"Simple Present Tense",
+  explanation:`<b>কখন ব্যবহার হয়:</b><br>
+  ১. নিয়মিত অভ্যাস বা রুটিন বোঝাতে — <span class="en">I go to school every day.</span><br>
+  ২. চিরন্তন সত্য বোঝাতে — <span class="en">The sun rises in the east.</span><br>
+  ৩. সাধারণ তথ্য/ফ্যাক্ট বোঝাতে — <span class="en">Water boils at 100°C.</span><br><br>
+  <b>গঠন (Structure):</b><br>
+  I / You / We / They + verb (base form)<br>
+  He / She / It + verb + s/es<br><br>
+  <b>উদাহরণ:</b><br>
+  <span class="en">I play football. — She plays football.</span><br>
+  <span class="en">They go to school. — He goes to school.</span>`,
+  questions:[
+    {type:"text", prompt:'I ___ (go) to school every day.', answer:["go"],
+      ec:'ঠিক — "I" এর সাথে verb-এর base form (go) বসে, "s/es" যোগ হয় না।', ew:'সঠিক উত্তর "go"। "I" subject-এর সাথে verb-এর কোনো পরিবর্তন হয় না, base form বসে।'},
+    {type:"text", prompt:'She ___ (eat) breakfast at 7 AM.', answer:["eats"],
+      ec:'ঠিক — "She" (He/She/It) এর সাথে verb-এর সাথে "s" যোগ হয়, তাই "eats"।', ew:'সঠিক উত্তর "eats"। She/He/It subject হলে verb-এর শেষে s/es যোগ করতে হয় — "eat" থেকে "eats" হয়েছে।'},
+    {type:"text", prompt:'They ___ (play) cricket on Sunday.', answer:["play"],
+      ec:'ঠিক — "They" এর সাথে verb-এর base form বসে, তাই "play"।', ew:'সঠিক উত্তর "play"। They/We/You subject হলে verb-এ কোনো s/es যোগ হয় না।'},
+    {type:"text", prompt:'He ___ (wake) up at 6 AM.', answer:["wakes"],
+      ec:'ঠিক — "He" এর সাথে verb-এর সাথে "s" যোগ হয়, তাই "wakes"।', ew:'সঠিক উত্তর "wakes"। He/She/It subject হলে verb-এর শেষে s/es যোগ হয় — "wake" থেকে "wakes"।'},
+    {type:"text", prompt:'We ___ (sleep) at 10 PM.', answer:["sleep"],
+      ec:'ঠিক — "We" এর সাথে verb-এর base form বসে।', ew:'সঠিক উত্তর "sleep"। We/They/You subject হলে verb অপরিবর্তিত (base form) থাকে।'},
+    {type:"mcq", prompt:'সঠিক অপশনটি বেছে নাও: She ___ to school.', options:["go","goes","going","gone"], answer:1,
+      ec:'ঠিক — She (তৃতীয় পুরুষ একবচন) এর সাথে "goes" বসে।', ew:'সঠিক উত্তর "goes"। She/He/It subject হলে verb-এর সাথে s/es যোগ করতে হয়; "go" থেকে "goes" হয়।'},
+    {type:"mcq", prompt:'সঠিক অপশনটি বেছে নাও: They ___ football.', options:["plays","play","playing","played"], answer:1,
+      ec:'ঠিক — They এর সাথে verb-এর base form "play" বসে।', ew:'সঠিক উত্তর "play"। They subject-এর সাথে verb-এ s/es যোগ হয় না।'},
+    {type:"mcq", prompt:'সঠিক অপশনটি বেছে নাও: He ___ his homework every day.', options:["do","does","doing","did"], answer:1,
+      ec:'ঠিক — He এর সাথে "do" এর present form "does" বসে।', ew:'সঠিক উত্তর "does"। He/She/It subject হলে "do" এর বদলে "does" ব্যবহার হয়।'},
+    {type:"text", prompt:'নিচের ভুল বাক্যটি ঠিক করে লেখো: "He go to school every day."', answer:["He goes to school every day."],
+      ec:'ঠিক — "He" এর সাথে "go" নয়, "goes" বসবে।', ew:'সঠিক বাক্য: "He goes to school every day." — He/She/It subject-এর সাথে verb-এ s/es যোগ করতে হয়, এখানে "go" হবে না, "goes" হবে।'},
+    {type:"text", prompt:'নিচের ভুল বাক্যটি ঠিক করে লেখো: "I plays football on Sunday."', answer:["I play football on Sunday."],
+      ec:'ঠিক — "I" এর সাথে "plays" নয়, "play" বসবে।', ew:'সঠিক বাক্য: "I play football on Sunday." — I/We/You/They subject-এর সাথে verb-এ s/es যোগ হয় না, তাই "plays" ভুল, "play" ঠিক।'},
+    {type:"text", prompt:'শব্দগুলো সাজিয়ে সঠিক বাক্য বানাও: school / every day / I / go / to', answer:["I go to school every day."],
+      ec:'ঠিক — বাক্যটির গঠন সঠিক ক্রমে সাজানো হয়েছে (Subject + Verb + Object + Time)।', ew:'সঠিক বাক্য: "I go to school every day." — ইংরেজি বাক্যের সাধারণ ক্রম হলো Subject + Verb + Object, আর সময়/frequency শব্দ (every day) সাধারণত শেষে বসে।'},
+    {type:"text", prompt:'শব্দগুলো সাজিয়ে সঠিক বাক্য বানাও: at / she / breakfast / 7 AM / eats', answer:["She eats breakfast at 7 AM."],
+      ec:'ঠিক — বাক্যটির গঠন সঠিক (Subject + Verb + Object + Time)।', ew:'সঠিক বাক্য: "She eats breakfast at 7 AM." — Subject (She) প্রথমে, তারপর Verb (eats), তারপর Object (breakfast), শেষে সময় (at 7 AM)।'},
+    {type:"text", prompt:'শব্দগুলো সাজিয়ে সঠিক বাক্য বানাও: cricket / play / on Sunday / they', answer:["They play cricket on Sunday."],
+      ec:'ঠিক — বাক্যটির গঠন সঠিক ক্রমে সাজানো হয়েছে।', ew:'সঠিক বাক্য: "They play cricket on Sunday." — Subject (They) + Verb (play) + Object (cricket) + সময় (on Sunday)।'},
+    {type:"text", prompt:'"I go to school." — এই বাক্যটিকে Negative (না-বোধক) বাক্যে পরিণত করো।', answer:["I do not go to school.","I don't go to school."],
+      ec:'ঠিক — I/We/You/They এর Negative করতে "do not / don\'t" ব্যবহার হয়, verb base form-এই থাকে।', ew:'সঠিক উত্তর: "I do not go to school." (বা "I don\'t go to school.") — Negative বাক্যে "do not/don\'t" বসে এবং verb আর s/es পায় না।'},
+    {type:"text", prompt:'"She eats breakfast." — এই বাক্যটিকে Question (প্রশ্নবোধক) বাক্যে পরিণত করো।', answer:["Does she eat breakfast?"],
+      ec:'ঠিক — She/He/It এর Question করতে "Does" দিয়ে শুরু হয়, আর verb তখন base form-এ ফিরে যায় (eats → eat)।', ew:'সঠিক উত্তর: "Does she eat breakfast?" — প্রশ্ন করার সময় "Does" ব্যবহার হলে মূল verb থেকে "s" বাদ যায় (eats → eat)।'}
+  ]
+};
+
+const LEVELS = {
+  A1: {
+    name:"A1 — Beginner",
+    lessons:[
+      {id:1, title:"Daily Life", ready:true},
+      {id:2, title:"Family & Friends", ready:false},
+      {id:3, title:"Food & Drinks", ready:false},
+      {id:4, title:"At School", ready:false},
+      {id:5, title:"Around the City", ready:false},
+      {id:6, title:"Hobbies & Free Time", ready:false}
+    ]
+  },
+  A2: {
+    name:"A2 — Elementary",
+    lessons:[
+      {id:1, title:"Past Experiences", ready:false},
+      {id:2, title:"Future Plans", ready:false},
+      {id:3, title:"Shopping", ready:false},
+      {id:4, title:"Health", ready:false},
+      {id:5, title:"Weather & Travel", ready:false}
+    ]
+  }
+};
+
+const PARTS = [
+  {key:"vocab", label:"Vocabulary", icon:"📘"},
+  {key:"grammar", label:"Grammar", icon:"✏️"},
+  {key:"reading", label:"Reading", icon:"📖"},
+  {key:"listening", label:"Listening", icon:"🎧"},
+  {key:"writing", label:"Writing", icon:"📝"},
+  {key:"speaking", label:"Speaking", icon:"🗣️"}
+];
+
+/* ============ STORAGE HELPERS ============ */
+function getProgress(){ return JSON.parse(localStorage.getItem("progress")||"{}"); }
+function setProgress(key){
+  const p = getProgress(); p[key]=true;
+  localStorage.setItem("progress", JSON.stringify(p));
+}
+function isDone(key){ return !!getProgress()[key]; }
+
+function getAttendance(){ return JSON.parse(localStorage.getItem("attendance")||"[]"); }
+function markAttendanceToday(){
+  const today = new Date().toISOString().slice(0,10);
+  const log = getAttendance();
+  if(!log.includes(today)){ log.push(today); localStorage.setItem("attendance", JSON.stringify(log)); }
+}
+function getStreak(){
+  const log = getAttendance().sort();
+  if(log.length===0) return 0;
+  let streak=0;
+  let d = new Date();
+  for(;;){
+    const key = d.toISOString().slice(0,10);
+    if(log.includes(key)){ streak++; d.setDate(d.getDate()-1); }
+    else break;
+  }
+  return streak;
+}
+function wordsLearnedCount(){
+  let n=0;
+  Object.keys(LEVELS).forEach(lv=>{
+    LEVELS[lv].lessons.forEach(ls=>{
+      if(isDone(lv+"-"+ls.id+"-vocab")) n+=25;
+    });
+  });
+  return n;
+}
+function lessonsCompletedCount(){
+  let n=0;
+  Object.keys(LEVELS).forEach(lv=>{
+    LEVELS[lv].lessons.forEach(ls=>{
+      const allDone = PARTS.every(p=>isDone(lv+"-"+ls.id+"-"+p.key));
+      if(allDone) n++;
+    });
+  });
+  return n;
+}
+
+/* ============ ROUTER ============ */
+window.addEventListener("hashchange", render);
+window.addEventListener("DOMContentLoaded", render);
+
+function go(hash){ location.hash = hash; }
+
+function render(){
+  const hash = location.hash.slice(1) || "home";
+  const parts = hash.split("/");
+  const app = document.getElementById("app");
+  let html = "";
+
+  if(parts[0]==="home") html = viewHome();
+  else if(parts[0]==="course") html = viewCourse();
+  else if(parts[0]==="level") html = viewLevel(parts[1]);
+  else if(parts[0]==="lesson") html = viewLesson(parts[1], parts[2]);
+  else if(parts[0]==="part") html = viewPart(parts[1], parts[2], parts[3]);
+  else if(parts[0]==="week") html = viewWeek();
+  else if(parts[0]==="details") html = viewDetails();
+  else html = viewHome();
+
+  app.innerHTML = html + bottomNav(parts[0]);
+  attachHandlers(parts);
+}
+
+/* ============ VIEWS ============ */
+function topbar(title, backHash, crumb){
+  return `<header class="topbar">
+    ${backHash!==null ? `<button class="back" onclick="go('${backHash}')">‹</button>` : ""}
+    <div><h1>${title}</h1>${crumb?`<span class="crumb">${crumb}</span>`:""}</div>
+  </header>`;
+}
+
+function bottomNav(active){
+  const items = [
+    {key:"home", label:"হোম", hash:"home"},
+    {key:"course", label:"কোর্স", hash:"course"},
+    {key:"week", label:"সপ্তাহ", hash:"week"},
+    {key:"details", label:"বিস্তারিত", hash:"details"}
+  ];
+  return `<nav class="bottomnav">
+    ${items.map(it=>`<button class="${active===it.key?'active':''}" onclick="go('${it.hash}')">${navIcon(it.key)}<span>${it.label}</span></button>`).join("")}
+  </nav>`;
+}
+function navIcon(key){
+  const icons = {
+    home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+    course:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h12v14H4z"/><path d="M4 5c4 0 8 1 8 1s4-1 8-1v14c-4 0-8 1-8 1s-4-1-8-1z"/></svg>',
+    week:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    details:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>'
+  };
+  return icons[key];
+}
+
+function viewHome(){
+  markAttendanceToday();
+  const streak = getStreak();
+  return `
+  <div class="brandbar">
+    <div class="mark en">Ae</div>
+    <div><h1>My English Course</h1><p>ধাপে ধাপে ইংরেজি শেখো</p></div>
+  </div>
+  <div class="streak-card">
+    <div><div class="num">${streak} 🔥</div><div class="lbl">দিন ধরে চালিয়ে যাচ্ছ</div></div>
+    <div class="lbl">✓ আজকের অ্যাটেন্ডেন্স হয়ে গেছে</div>
+  </div>
+  <div class="section-title" style="padding:0 18px;">তোমার হোমপেজ</div>
+  <div class="home-grid">
+    <div class="tile" onclick="go('course')">
+      <div class="icon">📚</div>
+      <h3>কোর্স</h3>
+      <p>Lesson শুরু করো</p>
+    </div>
+    <div class="tile accent" onclick="go('week')">
+      <div class="icon">📅</div>
+      <h3>এই সপ্তাহ</h3>
+      <p>সাপ্তাহিক পর্যালোচনা</p>
+    </div>
+    <div class="tile" onclick="go('details')">
+      <div class="icon">📊</div>
+      <h3>সব বিস্তারিত</h3>
+      <p>তোমার অগ্রগতি দেখো</p>
+    </div>
+    <div class="tile accent" onclick="go('course')">
+      <div class="icon">✅</div>
+      <h3>অ্যাটেন্ডেন্স</h3>
+      <p>আজ এসেছ, ভালো!</p>
+    </div>
+  </div>`;
+}
+
+function viewCourse(){
+  return `
+  ${topbar("Course", "home", null)}
+  <main>
+    <div class="card">
+      <div class="section-title" style="margin-top:0;">General English</div>
+      <p style="font-size:13px;color:var(--muted);margin-top:-4px;">তোমার লেভেল বেছে নাও এবং শেখা শুরু করো।</p>
+      <div class="level-row">
+        ${Object.keys(LEVELS).map(lv=>{
+          const total = LEVELS[lv].lessons.length;
+          const done = LEVELS[lv].lessons.filter(ls=>PARTS.every(p=>isDone(lv+"-"+ls.id+"-"+p.key))).length;
+          return `<div class="level-box" onclick="go('level/${lv}')">
+            <div class="badge">${lv}</div>
+            <h3>${LEVELS[lv].name.split(" — ")[1]}</h3>
+            <p>${total} Lessons</p>
+            <div class="progressbar"><div style="width:${Math.round(done/total*100)}%"></div></div>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>
+  </main>`;
+}
+
+function viewLevel(lv){
+  const level = LEVELS[lv];
+  if(!level) return topbar("খুঁজে পাওয়া যায়নি","course",null);
+  return `
+  ${topbar(level.name, "course", "Course")}
+  <main>
+    ${level.lessons.map(ls=>{
+      const allDone = PARTS.every(p=>isDone(lv+"-"+ls.id+"-"+p.key));
+      const locked = !ls.ready;
+      return `<div class="lesson-item ${allDone?'done':''} ${locked?'locked':''}" ${locked? "" : `onclick="go('lesson/${lv}/${ls.id}')"`}>
+        <div class="num">${allDone?'✓':ls.id}</div>
+        <div class="info">
+          <h4>Lesson ${ls.id}: ${ls.title}</h4>
+          <span>${locked? "শীঘ্রই আসছে" : (allDone? "সম্পূর্ণ হয়েছে" : "শুরু করো")}</span>
+        </div>
+      </div>`;
+    }).join("")}
+  </main>`;
+}
+
+function viewLesson(lv, lid){
+  const level = LEVELS[lv];
+  const lesson = level.lessons.find(l=>String(l.id)===String(lid));
+  return `
+  ${topbar("Lesson "+lid+": "+lesson.title, "level/"+lv, level.name)}
+  <main>
+    <p style="font-size:13px;color:var(--muted);margin-top:0;">নিচের একটি অংশ বেছে অনুশীলন শুরু করো — Vocabulary দিয়ে শুরু করাই ভালো।</p>
+    <div class="part-grid">
+      ${PARTS.map(p=>{
+        const done = isDone(lv+"-"+lid+"-"+p.key);
+        return `<div class="part-tile ${done?'done':''}" onclick="go('part/${lv}/${lid}/${p.key}')">
+          ${done?'<div class="check">✓</div>':""}
+          <span class="icon">${p.icon}</span>
+          <h4>${p.label}</h4>
+          <span>${done? "সম্পূর্ণ" : "শুরু করো"}</span>
+        </div>`;
+      }).join("")}
+    </div>
+  </main>`;
+}
+
+/* Quiz runtime state */
+let QUIZ = null;
+function viewPart(lv, lid, partKey){
+  const level = LEVELS[lv];
+  const lesson = level.lessons.find(l=>String(l.id)===String(lid));
+  const label = PARTS.find(p=>p.key===partKey).label;
+  const crumb = `Lesson ${lid}: ${lesson.title}`;
+
+  if(lv==="A1" && lid==="1" && partKey==="vocab"){
+    return topbar("Vocabulary", `lesson/${lv}/${lid}`, crumb) + `<main>${renderVocabIntro()}</main>`;
+  }
+  if(lv==="A1" && lid==="1" && partKey==="grammar"){
+    return topbar("Grammar", `lesson/${lv}/${lid}`, crumb) + `<main>${renderGrammarIntro()}</main>`;
+  }
+  // placeholder for parts not yet built
+  return topbar(label, `lesson/${lv}/${lid}`, crumb) + `<main>
+    <div class="empty-note">
+      <span class="big">✍️</span>
+      এই অংশের কনটেন্ট এখনো তৈরি হয়নি।<br>শীঘ্রই যোগ করা হবে।
+    </div>
+  </main>`;
+}
+
+function renderVocabIntro(){
+  return `
+  <div class="card">
+    <div class="section-title" style="margin-top:0;">শব্দগুলো একবার দেখে নাও</div>
+    ${VOCAB_L1.map(v=>`<div class="word-card">
+      <div class="w en">${v.w}</div>
+      <div class="m">${v.m}</div>
+      <div class="ex en">"${v.ex}"</div>
+    </div>`).join("")}
+  </div>
+  <button class="btn" onclick="startVocabQuiz()">অনুশীলনী শুরু করো →</button>
+  <div id="quizArea"></div>`;
+}
+
+function startVocabQuiz(){
+  QUIZ = {list: VOCAB_L1_QUIZ_COPY(), i:0, key:"A1-1-vocab", answered:false};
+  document.getElementById("quizArea").innerHTML = renderQuizQuestion();
+  document.getElementById("quizArea").scrollIntoView({behavior:"smooth"});
+}
+function VOCAB_L1_QUIZ_COPY(){ return VOCAB_QUIZ_L1.map(q=>({...q})); }
+
+function renderGrammarIntro(){
+  return `
+  <div class="explain-box">
+    <h4>${GRAMMAR_L1.topic}</h4>
+    ${GRAMMAR_L1.explanation}
+  </div>
+  <button class="btn" onclick="startGrammarQuiz()">অনুশীলনী শুরু করো →</button>
+  <div id="quizArea"></div>`;
+}
+function startGrammarQuiz(){
+  QUIZ = {list: GRAMMAR_L1.questions.map(q=>({...q})), i:0, key:"A1-1-grammar", answered:false};
+  document.getElementById("quizArea").innerHTML = renderQuizQuestion();
+  document.getElementById("quizArea").scrollIntoView({behavior:"smooth"});
+}
+
+function renderQuizQuestion(){
+  const q = QUIZ.list[QUIZ.i];
+  const total = QUIZ.list.length;
+  let body = "";
+  if(q.type==="mcq"){
+    body = q.options.map((opt,idx)=>`<button class="option" data-idx="${idx}" onclick="selectOption(${idx})">${opt}</button>`).join("");
+  } else if(q.type==="text"){
+    body = `<input type="text" class="qinput en" id="qInput" placeholder="উত্তর লেখো (ইংরেজিতে)">`;
+  } else if(q.type==="open"){
+    body = `<input type="text" class="qinput en" id="qInput" placeholder="তোমার বাক্য লেখো">`;
+  }
+  return `
+  <div class="card">
+    <div class="qcounter">প্রশ্ন ${QUIZ.i+1} / ${total}</div>
+    <div class="qprompt en">${q.prompt}</div>
+    ${body}
+    <div id="feedbackArea"></div>
+    <div class="btn-row">
+      ${q.type!=="mcq" ? `<button class="btn" id="checkBtn" onclick="checkAnswer()">উত্তর দেখাও</button>`:""}
+      <button class="btn outline" id="nextBtn" style="display:none;" onclick="nextQuestion()">পরবর্তী →</button>
+    </div>
+  </div>`;
+}
+
+function selectOption(idx){
+  if(QUIZ.answered) return;
+  document.querySelectorAll(".option").forEach(el=>el.classList.remove("selected"));
+  document.querySelectorAll(".option")[idx].classList.add("selected");
+  checkAnswer(idx);
+}
+
+function checkAnswer(mcqIdx){
+  if(QUIZ.answered) return;
+  const q = QUIZ.list[QUIZ.i];
+  let correct = false;
+  if(q.type==="mcq"){
+    correct = (mcqIdx===q.answer);
+    document.querySelectorAll(".option").forEach((el,idx)=>{
+      if(idx===q.answer) el.classList.add("correct");
+      else if(idx===mcqIdx && !correct) el.classList.add("wrong");
+    });
+  } else if(q.type==="text"){
+    const val = document.getElementById("qInput").value.trim().toLowerCase().replace(/[.!?]+$/,"");
+    correct = q.answer.some(a=>a.toLowerCase().replace(/[.!?]+$/,"")===val);
+    document.getElementById("qInput").classList.add(correct?"correct":"wrong");
+  } else if(q.type==="open"){
+    correct = true; // always accept, encourage practice
+    document.getElementById("qInput").classList.add("correct");
+  }
+  QUIZ.answered = true;
+  const fb = document.getElementById("feedbackArea");
+  fb.innerHTML = `<div class="feedback ${correct?'correct':'wrong'}">
+    <span class="tag">${correct? "সঠিক! ✓" : "ভুল হয়েছে ✕"}</span>
+    ${correct? q.ec : q.ew}
+    ${(!correct && q.type==="text") ? `<br><br><b>সঠিক উত্তর:</b> <span class="en">${q.answer[0]}</span>` : ""}
+  </div>`;
+  const checkBtn = document.getElementById("checkBtn");
+  if(checkBtn) checkBtn.style.display = "none";
+  document.getElementById("nextBtn").style.display = "inline-flex";
+}
+
+function nextQuestion(){
+  QUIZ.i++;
+  QUIZ.answered = false;
+  if(QUIZ.i >= QUIZ.list.length){
+    setProgress(QUIZ.key);
+    document.getElementById("quizArea").innerHTML = `
+    <div class="card" style="text-align:center;">
+      <div style="font-size:34px;">🎉</div>
+      <h3 style="font-family:'Baloo 2',sans-serif;color:var(--primary-dark);">অনুশীলনী সম্পূর্ণ হয়েছে!</h3>
+      <p style="font-size:13.5px;color:var(--muted);">এই অংশটি এখন সম্পূর্ণ হিসেবে সংরক্ষিত হলো।</p>
+      <button class="btn" onclick="history.back(); render();">লেসনে ফিরে যাও</button>
+    </div>`;
+    return;
+  }
+  document.getElementById("quizArea").innerHTML = renderQuizQuestion();
+}
+
+function viewWeek(){
+  const log = getAttendance();
+  const days = ["রবি","সোম","মঙ্গল","বুধ","বৃহঃ","শুক্র","শনি"];
+  const today = new Date();
+  let cells = "";
+  for(let i=6;i>=0;i--){
+    const d = new Date(today); d.setDate(today.getDate()-i);
+    const key = d.toISOString().slice(0,10);
+    const on = log.includes(key);
+    cells += `<div class="weekday"><div class="dot ${on?'on':''}">${on?'✓':''}</div>${days[d.getDay()]}</div>`;
+  }
+  return `
+  ${topbar("এই সপ্তাহ", "home", null)}
+  <main>
+    <div class="card">
+      <div class="section-title" style="margin-top:0;">অ্যাটেন্ডেন্স</div>
+      <div class="weekrow">${cells}</div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin-top:0;">এই সপ্তাহের অগ্রগতি</div>
+      <p style="font-size:13.5px;color:var(--muted);">এই সপ্তাহে সম্পূর্ণ হওয়া Lesson ও Part-এর সারাংশ শীঘ্রই এখানে যোগ হবে।</p>
+    </div>
+  </main>`;
+}
+
+function viewDetails(){
+  const streak = getStreak();
+  const words = wordsLearnedCount();
+  const lessonsDone = lessonsCompletedCount();
+  let totalLessons = 0;
+  Object.keys(LEVELS).forEach(lv=>totalLessons += LEVELS[lv].lessons.length);
+  return `
+  ${topbar("সব বিস্তারিত", "home", null)}
+  <main>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="n">${words}</div><div class="l">শব্দ শেখা হয়েছে</div></div>
+      <div class="stat-box"><div class="n">${lessonsDone}/${totalLessons}</div><div class="l">Lesson সম্পূর্ণ</div></div>
+      <div class="stat-box"><div class="n">${streak}</div><div class="l">দিনের Streak</div></div>
+      <div class="stat-box"><div class="n">${getAttendance().length}</div><div class="l">মোট উপস্থিতি</div></div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <div class="section-title" style="margin-top:0;">লেভেল অনুযায়ী অগ্রগতি</div>
+      ${Object.keys(LEVELS).map(lv=>{
+        const total = LEVELS[lv].lessons.length;
+        const done = LEVELS[lv].lessons.filter(ls=>PARTS.every(p=>isDone(lv+"-"+ls.id+"-"+p.key))).length;
+        return `<p style="font-size:13.5px;margin:10px 0 2px;">${LEVELS[lv].name}</p>
+        <div class="progressbar"><div style="width:${Math.round(done/total*100)}%"></div></div>`;
+      }).join("")}
+    </div>
+  </main>`;
+}
+
+function attachHandlers(){ /* inline onclick handlers used throughout */ }
+</script>
+</body>
+</html>
